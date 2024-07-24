@@ -17,10 +17,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Restore
-        run: dotnet restore ./tickettoolkit
+        run: dotnet restore ./TicketToolkit.sln
 
       - name: Build
-        run: dotnet build ./tickettoolkit --no-restore
+        run: dotnet build ./TicketToolkit.sln --no-restore
       - name: Publish
-        run: dotnet publish ./tickettoolkit --no-build
+        run: dotnet publish ./TicketToolkit.sln --no-build
       
