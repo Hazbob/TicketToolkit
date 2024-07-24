@@ -4,23 +4,30 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - main
+      - main
+
 jobs:
   publish:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v3
 
+      # Step 2: Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
+
+      # Step 3: Restore dependencies
       - name: Restore
         run: dotnet restore ./TicketToolkit.sln
 
+      # Step 4: Build the solution
       - name: Build
-        run: dotnet build ./TicketToolkit.sln --no-restore
+        run: dotnet build ./TicketToolkit.sln --configuration Release --no-restore
+
+      # Step 5: Publish the main project (not the test project)
       - name: Publish
-        run: dotnet publish ./TicketToolkit.sln --no-build
-      
+        run: dotnet publish ./TicketToolkit/TicketToolkit.csproj --configuration Release --framework net8.0 --output ./publish --no-restore
