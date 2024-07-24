@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+env:
+  AZURE_WEB_APP: tickettoolkit
+  AZURE_WEB_APP_PACKAGE_PATH: "./publish"
 
 jobs:
   publish:
@@ -30,4 +33,11 @@ jobs:
 
       # Step 5: Publish the main project (not the test project)
       - name: Publish
-        run: dotnet publish ./TicketToolkit/TicketToolkit.csproj --configuration Release --framework net8.0 --output ./publish --no-restore
+        run: dotnet publish ./TicketToolkit/TicketToolkit.csproj --configuration Release --framework net8.0 --output ${{ env.AZURE_WEB_APP_PACKAGE_PATH }} --no-restore
+
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEB_APP }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEB_APP_PACKAGE_PATH }}
