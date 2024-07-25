@@ -1,32 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
+using TicketToolkit.Exceptions;
+using TicketToolkit.Handlers;
+using TicketToolkit.Interfaces;
 using TicketToolkit.Models;
 
 namespace TicketToolkit.Controllers;
 
 public class TicketController : Controller
 {
-    [HttpGet("/ticket/{ticketId}")]
-    public IActionResult GetTicket([FromRoute] int ticketId)
+    private readonly ITicketService _ticketService;
+    public TicketController(ITicketService ticketService)
     {
-        try
+        _ticketService = ticketService;
+    }
+    
+    [HttpGet("/ticket/{ticketId}")]
+    public async Task<IActionResult> GetTicket([FromRoute] Guid ticketId, Guid userId )
+    {
+        return await AsyncRequestHandler.HandleRequest(async () =>
         {
-            var ticket = new Ticket()
+            var ticket = await _ticketService.GetTicket(userId, ticketId);
+            if (ticket is null)
             {
-                EventName = "test",
-                EventDate = new DateTime(),
-                PurchasePrice = 10,
-                PurchaseDate = new DateTime(),
-                TicketId = new Guid("EC6435EE-E778-4A22-9A9A-B0E4C3030EE8"),
-                Quantity = 4,
-                UserId = new Guid("B382DB64-8826-42A6-BF13-505381162CCF")
-            };
+                throw new TicketDoesNotExistException("No Ticket Exists");
+            }
             return Ok(ticket);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            BadRequest(e.Message);
-            throw;
-        }
+        });
+
     }
 }
