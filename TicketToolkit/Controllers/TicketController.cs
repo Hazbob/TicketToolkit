@@ -21,13 +21,12 @@ public class TicketController : Controller
     {
         return await _requestHandler.HandleRequest(async () =>
         {
-            var ticket = await _ticketService.GetTicket(userId, ticketId);
+            var ticket = await _ticketService.FetchTicket(userId, ticketId);
             if (ticket is null)
             {
                 throw new TicketDoesNotExistException("No Ticket Exists");
             }
             return Ok(ticket);
         });
-
     }
 }

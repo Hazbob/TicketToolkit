@@ -12,7 +12,7 @@ public class TicketService: ITicketService
         throw new NotImplementedException();
     }
 
-    public Task<Ticket> GetTicket(Guid userId, Guid ticketId)
+    public Task<Ticket> FetchTicket(Guid userId, Guid ticketId)
     {
         throw new NotImplementedException();
     }

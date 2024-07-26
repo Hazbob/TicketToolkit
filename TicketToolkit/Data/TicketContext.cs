@@ -5,5 +5,5 @@ namespace TicketToolkit.Data;
 
 public class TicketContext(DbContextOptions<TicketContext> options) : DbContext(options)
 {
-    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<Ticket?> Tickets { get; set; }
 }
