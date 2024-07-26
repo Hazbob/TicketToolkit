@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TicketToolkit.Handlers;
 
-public static class AsyncRequestHandler
+public class AsyncRequestHandler
 {
-    public static async Task<IActionResult> HandleRequest(Func<Task<IActionResult>> asyncRequest)
+    public async Task<IActionResult> HandleRequest(Func<Task<IActionResult>> asyncRequest)
     {
         try
         {
