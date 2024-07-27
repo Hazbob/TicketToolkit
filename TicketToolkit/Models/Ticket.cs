@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.JavaScript;
 
 namespace TicketToolkit.Models;
@@ -12,4 +13,5 @@ public class Ticket
     public int Quantity { get; set; }
     public Guid UserId { get; set; }
     public string? ViagogoLink { get; set; }
+    public double PricePerTicket => PurchasePrice *= Quantity;
 }
