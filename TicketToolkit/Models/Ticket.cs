@@ -11,4 +11,5 @@ public class Ticket
     public double PurchasePrice { get; set; }
     public int Quantity { get; set; }
     public Guid UserId { get; set; }
+    public string? ViagogoLink { get; set; }
 }
